@@ -1,6 +1,37 @@
-var app = angular.module('tracky', ['Storage', 'AutocompleteDirective', 'TimerDirective']);
+var app = angular.module('tracky', ['Storage', 'AutocompleteDirective', 'TimerDirective','trello']);
 
-app.controller('AppCtrl', function ($scope, Storage) {
+
+           
+
+
+app.controller('AppCtrl', function ($scope, Storage ,TrelloApi) {
+
+
+     $scope.boards = [];
+     $scope.trello_login = function () {
+                    TrelloApi.Authenticate().then(function(){
+                        console.log(TrelloApi.Token());
+                    }, function(){
+                        alert('no');
+                    });
+    };
+      $scope.getMe = function () {
+                    TrelloApi.Rest('GET', 'members/me').then(function(res){
+                        $scope.boards = res.idBoards;
+                        console.log($scope.boards);
+                        console.log($scope.boards[0]);
+                    }, function(err){
+                        console.log(err);
+                    });
+                };
+      $scope.getBoards = function() {
+                    TrelloApi.boards("579b69e00ed00edf6260c0b1", {}).then(function(res) {
+                        console.log(res);
+                        //console.log($scope.boards)
+                    }, function(err) {
+                        console.log(err);
+                    });
+      };
 
     var background = chrome.extension ? chrome.extension.getBackgroundPage() : {};
     $scope.project = background.project ? background.project : {};
@@ -43,6 +74,10 @@ app.controller('AppCtrl', function ($scope, Storage) {
     $scope.record = function(){
         $scope.start = Date.now();
         $scope.project = {};
+        
+        $scope.getMe()
+        $scope.getBoards()
+
     };
 
     // Cancel timer
@@ -137,6 +172,5 @@ app.controller('AppCtrl', function ($scope, Storage) {
             return false;
         }
     }
-
 
 });

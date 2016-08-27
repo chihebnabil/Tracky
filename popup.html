@@ -5,6 +5,7 @@
 </head>
 <body ng-controller="AppCtrl" ng-class="{isrecording: start, animated: loaded}">
     <button class="dashboard" ng-click="dashboard()">Dashboard</button>
+    <button class="trello" ng-click="trello_login()">Trello Auth</button>
     <div class="viewport" ng-if="loaded">
         <div class="container">
             <button ng-click="record()" class="rec"><span class="rec_hover"></span></button>
@@ -28,10 +29,14 @@
     <script src="js/angular.js"></script>
 
     <script src="js/services/storage.js"></script>
+    
+    <script src="bower_components/angular-trello/dist/angular-trello.min.js"></script>
+     
 
     <script src="js/directives/timer.js"></script>
     <script src="js/directives/autocomplete.js"></script>
 
     <script src="js/popup.js"></script>
+    <script src="js/trello.config.js"></script>
 </body>
 </html>

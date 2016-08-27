@@ -1,3 +1,5 @@
 css/.sass-cache
 node_modules
+bower_components
+js/trello.config.js
 .idea
